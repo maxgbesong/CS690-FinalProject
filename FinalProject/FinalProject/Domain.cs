@@ -27,12 +27,31 @@ public class Family
 
     public override string ToString()
     {
+        return this.name;
+    }
+    
+    public string saveString()
+    {
         string textLine = name;
         foreach (var member in members)
         {
-            textLine += ":";
+            textLine += ":" + member.name + ":" + member.dietType.ToString();
         }
         return textLine;
+    }
+
+    public string listMemberNames()
+    {
+        string names = "";
+        for (int i = 0; i < members.Count; i++)
+        {
+            names += members[i].name;
+            if (i < members.Count - 1)
+            {
+                names += ", ";
+            }
+        }
+        return names;
     }
 }
 

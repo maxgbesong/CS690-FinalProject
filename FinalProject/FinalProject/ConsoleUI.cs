@@ -18,7 +18,7 @@ public class ConsoleUI
             .Title("Welcome to Elena's Community Kitchen!\n\nPlease select your role:")
             .AddChoices(new[]
             {
-                nameof(Role.Volunteer),
+                //nameof(Role.Volunteer),
                 nameof(Role.Manager)
             }));
         
@@ -43,7 +43,7 @@ public class ConsoleUI
                     {
                         "Track families",
                         "Track meals",
-                        "Track ingredients",
+                        //"Track ingredients",
                         "Exit"
                     }));
                 
@@ -65,7 +65,15 @@ public class ConsoleUI
                         
                         if (familyOption == "View families")
                         {
-                            
+                            var table = new Table();
+                            table.AddColumn("Family Name");
+                            table.AddColumn("Number of Members");
+                            table.AddColumn("Family Members");
+                            foreach(var family in dataManager.families)
+                            {
+                                table.AddRow(family.name, family.members.Count.ToString(), family.listMemberNames());
+                            }
+                            AnsiConsole.Write(table);
                         }
                         else if (familyOption == "Add family")
                         {
@@ -104,17 +112,39 @@ public class ConsoleUI
                             while (moreMembers == "Yes");
 
                             dataManager.AddFamily(new Family(familyName, members));
+                            AnsiConsole.WriteLine("Added " + familyName + " family.");
                         }
                         else if (familyOption == "Remove family")
                         {
-                            
+                            if (dataManager.families.Count > 0)
+                            {
+                                var family = AnsiConsole.Prompt(
+                                    new SelectionPrompt<Family>()
+                                    .Title("Select a family to remove:")
+                                    .AddChoices(dataManager.families));
+                                dataManager.removeFamily(family);
+                            }
+                            else
+                            {
+                                AnsiConsole.WriteLine("There are no recorded families yet.");
+                            }
                         }
                     }
                     while (familyOption != "Back to manager menu");
                 }
                 else if (menuOption == "Track meals")
                 {
-                    
+                    AnsiConsole.WriteLine("Total meals still needed today: " + dataManager.countTotalMeals().ToString());
+
+                    AnsiConsole.WriteLine("Breakdown of meals needed by dietary restrictions:");
+                    var table = new Table();
+                        table.AddColumn("Dietary Type");
+                        table.AddColumn("Meals Needed");
+                        foreach(DietType diet in Enum.GetValues(typeof(DietType)))
+                        {
+                            table.AddRow(diet.ToString(), dataManager.countMealsForDietType(diet).ToString());
+                        }
+                        AnsiConsole.Write(table);
                 }
                 else if (menuOption == "Track ingredients")
                 {

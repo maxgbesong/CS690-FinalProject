@@ -19,9 +19,48 @@ public class DataManager
         foreach(var line in familiesFileContent)
         {
             var splitted = line.Split(":", StringSplitOptions.RemoveEmptyEntries);
-            var familyName = splitted[0];
-
+            string familyName = splitted[0];
+            List<FamilyMember> members = new List<FamilyMember>();
+            for (int i = 1; i < splitted.Length; i += 2)
+            {
+                string memberName = splitted[i];
+                DietType dietType = (DietType)Enum.Parse(typeof(DietType), splitted[i+1]);
+                members.Add(new FamilyMember(memberName, dietType));
+            }
+            families.Add(new Family(familyName, members));
         }
+    }
+
+    public int countTotalMeals()
+    {
+        int totalMeals = 0;
+        foreach (Family family in families)
+        {
+            if (!family.assignedMeal)
+            {
+                totalMeals += family.members.Count;
+            }
+        }
+        return totalMeals;
+    }
+
+    public int countMealsForDietType(DietType diet)
+    {
+        int count = 0;
+        foreach (Family family in families)
+        {
+            if (!family.assignedMeal)
+            {
+                foreach (FamilyMember member in family.members)
+                {
+                    if (member.dietType == diet)
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
 
     public void AddFamily(Family family)
@@ -30,12 +69,18 @@ public class DataManager
         SynchronizeFamilies();
     }
 
+    public void removeFamily(Family family)
+    {
+        families.Remove(family);
+        SynchronizeFamilies();
+    }
+
     public void SynchronizeFamilies()
     {
         File.Delete("families.txt");
         foreach (var family in families)
         {
-            File.AppendAllText("families.txt", family.ToString());
+            File.AppendAllText("families.txt", family.saveString() + Environment.NewLine);
         }
     }
 }
