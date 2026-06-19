@@ -31,38 +31,6 @@ public class DataManager
         }
     }
 
-    public int countTotalMeals()
-    {
-        int totalMeals = 0;
-        foreach (Family family in families)
-        {
-            if (!family.assignedMeal)
-            {
-                totalMeals += family.members.Count;
-            }
-        }
-        return totalMeals;
-    }
-
-    public int countMealsForDietType(DietType diet)
-    {
-        int count = 0;
-        foreach (Family family in families)
-        {
-            if (!family.assignedMeal)
-            {
-                foreach (FamilyMember member in family.members)
-                {
-                    if (member.dietType == diet)
-                    {
-                        count++;
-                    }
-                }
-            }
-        }
-        return count;
-    }
-
     public void AddFamily(Family family)
     {
         families.Add(family);

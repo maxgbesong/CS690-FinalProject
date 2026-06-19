@@ -1,3 +1,4 @@
 Brown:Jim:NoRestrictions:Anna:GlutenFree:Kayla:NoRestrictions:Evan:Vegan
 Smith:Angelina:NoRestrictions:Joe:NutFree
 Miller:Ben:NutFree:Sam:Vegan:Kendra:Vegetarian
+Johnson:Michael:NoRestrictions
