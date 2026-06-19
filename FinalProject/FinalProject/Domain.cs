@@ -69,16 +69,6 @@ public class Ingredient
     }
 }
 
-// public class Meal
-// {
-    
-
-//     public Meal()
-//     {
-        
-//     }
-// }
-
 public enum DietType
 {
     NoRestrictions,
