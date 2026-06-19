@@ -206,7 +206,7 @@ public class ConsoleUI
                         new SelectionPrompt<Family>()
                         .Title("Select a family to remove:")
                         .AddChoices(dataManager.families));
-                    dataManager.removeFamily(family);
+                    dataManager.RemoveFamily(family);
                 }
                 else
                 {

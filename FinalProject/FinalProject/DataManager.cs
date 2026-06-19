@@ -37,7 +37,7 @@ public class DataManager
         SynchronizeFamilies();
     }
 
-    public void removeFamily(Family family)
+    public void RemoveFamily(Family family)
     {
         families.Remove(family);
         SynchronizeFamilies();
